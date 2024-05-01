@@ -69,16 +69,16 @@ while running:
         shininess = 16
         ball_color = np.array([0.7216,0.451,0.2])
     if pressed[pygame.K_2]:
-        ambient_strength = 0.35
-        diffuse_strength = 0.6
-        specular_strength = 1.44
-        shininess = 14 
+        ambient_strength = 0.4 #35
+        diffuse_strength = 0.5  #6
+        specular_strength = 1.6  # 1.44
+        shininess = 64 
         ball_color = np.array([0.53,0.53,0.53])
     if pressed[pygame.K_3]:
-        ambient_strength = 0.2
-        diffuse_strength = 0.7
-        specular_strength = 0.24
-        shininess = 8 
+        ambient_strength = 0.4
+        diffuse_strength = 0.5
+        specular_strength = 0.7 # 44
+        shininess = 16 
         ball_color = np.array([0,1,0])
     if pressed[pygame.K_4]:
         ambient_strength = 0.1
