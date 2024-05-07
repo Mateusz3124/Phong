@@ -40,7 +40,7 @@ def render_sphere(radius, sphere_center, light_pos, camera_pos):
                 specular_color = specular_strength * (specular ** shininess)
                 specular_color = specular_color * specular_color_real
                 final_intensity = diffuse_color + specular_color + ambient_strength * ball_color
-                #final_intensity = max(0, min(final_intensity, 1))
+
                 color = final_intensity * 255
                 for i in range(len(color)):
                     color[i] = min(color[i],255)
@@ -93,6 +93,10 @@ while running:
         shininess = 8 
         specular_color_real = np.array([1,1,1])
         ball_color = np.array([1,1,1])
+    if pressed[pygame.K_5]:
+        light_position[0] = -abs(light_position[0])
+    if pressed[pygame.K_6]:
+        light_position[0] = abs(light_position[0])
 
     screen.fill((0, 0, 0))
 
