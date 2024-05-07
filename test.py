@@ -1,11 +1,11 @@
 import pygame
 import math
 import numpy as np
-
-ambient_strength = 0.01
-diffuse_strength = 0.8
-specular_strength = 0.499
-shininess = 16
+specular_color_real = np.array([0.256777,0.13,0.08])
+ambient_strength = 0.1
+diffuse_strength = 1
+specular_strength = 1
+shininess = 2
 
 light_position = np.array([300, -400, 700])
 camera_position = np.array([0, -200, 500])
@@ -32,15 +32,18 @@ def render_sphere(radius, sphere_center, light_pos, camera_pos):
 
                 diffuse = max(0, np.dot(normal, light_vec))
                 diffuse_color = diffuse_strength * diffuse
+                diffuse_color = diffuse_color * ball_color
 
                 reflection_vec = 2 * np.dot(normal, light_vec) * normal - light_vec
+                
                 specular = max(0, np.dot(view_vec, reflection_vec))
                 specular_color = specular_strength * (specular ** shininess)
-
-                final_intensity = ambient_strength + diffuse_color + specular_color
-                final_intensity = max(0, min(final_intensity, 1))
-
-                color = ball_color * final_intensity * 255
+                specular_color = specular_color * specular_color_real
+                final_intensity = diffuse_color + specular_color + ambient_strength * ball_color
+                #final_intensity = max(0, min(final_intensity, 1))
+                color = final_intensity * 255
+                for i in range(len(color)):
+                    color[i] = min(color[i],255)
                 screen.set_at((x + sphere_center[0], y + sphere_center[1]), color)
 
 running = True
@@ -63,28 +66,32 @@ while running:
         light_position[1] += 100
     
     if pressed[pygame.K_1]:
+        specular_color_real = np.array([0.256777,0.13,0.08])
         ambient_strength = 0.1
-        diffuse_strength = 0.8
-        specular_strength = 0.499
-        shininess = 16
-        ball_color = np.array([0.7216,0.451,0.2])
+        diffuse_strength = 1
+        specular_strength = 1
+        shininess = 2
+        ball_color = np.array([0.7216,0.351,0.2])
     if pressed[pygame.K_2]:
-        ambient_strength = 0.4 #35
-        diffuse_strength = 0.5  #6
-        specular_strength = 1.6  # 1.44
-        shininess = 64 
+        specular_color_real = np.array([0.3,0.3,0.3])
+        ambient_strength = 0.3 #35
+        diffuse_strength = 1.1  #6
+        specular_strength = 1.1  # 1.44
+        shininess = 12
         ball_color = np.array([0.53,0.53,0.53])
     if pressed[pygame.K_3]:
+        specular_color_real = np.array([0,0.3,0])
         ambient_strength = 0.4
         diffuse_strength = 0.5
-        specular_strength = 0.7 # 44
-        shininess = 16 
+        specular_strength = 1.1 # 44
+        shininess = 12 
         ball_color = np.array([0,1,0])
     if pressed[pygame.K_4]:
         ambient_strength = 0.1
         diffuse_strength = 0.9
         specular_strength = 0.01
         shininess = 8 
+        specular_color_real = np.array([1,1,1])
         ball_color = np.array([1,1,1])
 
     screen.fill((0, 0, 0))
